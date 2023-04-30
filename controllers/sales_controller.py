@@ -26,8 +26,8 @@ def getSale(saleId):
 def addSale():
     try:
         newSale = {
-            'idClient': request.json['idClient'],
             'idProduct': request.json['idProduct'],
+            'idClient': request.json['idClient'],
             'amount': request.json['amount'],
             'saleDate': request.json['saleDate']
         }

@@ -21,7 +21,7 @@ class SaleModel():
     def addSale(self, newSale):
         try:
             cur = self.mySQL.connection.cursor()
-            cur.execute('INSERT INTO sales (idClient, idProduct, amount, sale_date) VALUES (%s, %s, %s, %s)', (newSale['idClient'], newSale['idProduct'], newSale['amount'], newSale['saleDate']))
+            cur.execute('INSERT INTO sales (idProduct, idClient, amount, saleDate) VALUES (%s, %s, %s, %s)', (newSale['idProduct'], newSale['idClient'], newSale['amount'], newSale['saleDate']))
             self.mySQL.connection.commit()
         except Exception as e:
             print('ERROR:\n',e)
@@ -29,8 +29,8 @@ class SaleModel():
     def updateSale(self, saleId, updatedSale):
         try:
             cur = self.mySQL.connection.cursor()
-            cur.execute('UPDATE sales SET idClient = %s, idProduct = %s, amount = %s, sale_date = %s WHERE id = %s',
-                        (updatedSale['idClient'], updatedSale['idProduct'], updatedSale['amount'], updatedSale['saleDate'], saleId))
+            cur.execute('UPDATE sales SET idProduct = %s, idClient = %s, amount = %s, saleDate = %s WHERE id = %s',
+                        (updatedSale['idProduct'], updatedSale['idClient'], updatedSale['amount'], updatedSale['saleDate'], saleId))
             self.mySQL.connection.commit()
         except Exception as e:
             print('ERROR:\n',e)
@@ -62,7 +62,7 @@ class SaleModel():
     def getSalesByDate(self, saleDate):
         try:
             cur = self.mySQL.connection.cursor()
-            cur.execute('SELECT * FROM sales WHERE sale_date = %s', (saleDate,))
+            cur.execute('SELECT * FROM sales WHERE saleDate = %s', (saleDate,))
         except Exception as e:
             print('ERROR:\n',e)
             
@@ -77,7 +77,7 @@ class SaleModel():
     def getSalesByClientAndDate(self, idClient, saleDate):
         try:
             cur = self.mySQL.connection.cursor()
-            cur.execute('SELECT * FROM sales WHERE idClient = %s AND sale_date = %s', (idClient, saleDate))
+            cur.execute('SELECT * FROM sales WHERE idClient = %s AND saleDate = %s', (idClient, saleDate))
             return cur.fetchall()
         except Exception as e:
             print('ERROR:\n',e)
@@ -85,7 +85,7 @@ class SaleModel():
     def getSalesByProductAndDate(self, idProduct, saleDate):
         try:
             cur = self.mySQL.connection.cursor()
-            cur.execute('SELECT * FROM sales WHERE idProduct = %s AND sale_date = %s', (idProduct, saleDate))
+            cur.execute('SELECT * FROM sales WHERE idProduct = %s AND saleDate = %s', (idProduct, saleDate))
             return cur.fetchall()
         except Exception as e:
             print('ERROR:\n',e)
@@ -93,7 +93,7 @@ class SaleModel():
     def getSalesByClientAndProductAndDate(self, idClient, idProduct, saleDate):
         try:
             cur = self.mySQL.connection.cursor()
-            cur.execute('SELECT * FROM sales WHERE idClient = %s AND idProduct = %s AND sale_date = %s', (idClient, idProduct, saleDate))
+            cur.execute('SELECT * FROM sales WHERE idClient = %s AND idProduct = %s AND saleDate = %s', (idClient, idProduct, saleDate))
             return cur.fetchall()
         except Exception as e:
             print('ERROR:\n',e)
