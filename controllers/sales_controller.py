@@ -1,13 +1,13 @@
 from flask import request, jsonify, Blueprint
 from models.sales_model import SaleModel
 
-saleController = Blueprint('saleController', __name__)
+salesController = Blueprint('salesController', __name__)
 
-def initSaleController(app, mySQL):
+def initSalesController(app, mySQL):
     global SaleModel
     SaleModel = SaleModel(mySQL)
     
-    app.register_blueprint(saleController)
+    app.register_blueprint(salesController)
     
 def getSales():
     try:
@@ -15,37 +15,33 @@ def getSales():
     except Exception as e:
         return jsonify({'message': 'Sales Cant be Fetched'})
         print(e)
-
+        
 def getSale(saleId):
     try:
         return jsonify(SaleModel.getSale(saleId))
     except Exception as e:
         return jsonify({'message': 'Sale Cant be Fetched'})
         print(e)
-
+        
 def addSale():
     try:
         newSale = {
-            'idProduct': request.json['idProduct'],
-            'idClient': request.json['idClient'],
-            'amount': request.json['amount'],
-            'saleDate': request.json['saleDate']
+            "customerId": request.json['customerId'],
+            "total": request.json['total'],
         }
         SaleModel.addSale(newSale)
         return jsonify({'message': 'Sale Added Succesfully'})
     except Exception as e:
         return jsonify({'message': 'Sale Cant be Added'})
         print(e)
-        
+
 def updateSale(saleId):
     try:
         updatedSale = {
-            'idClient': request.json['idClient'],
-            'idProduct': request.json['idProduct'],
-            'amount': request.json['amount'],
-            'saleDate': request.json['saleDate']
+            "customerId": request.json['customerId'],
+            "total": request.json['total'],
         }
-        SaleModel.updateSale(saleId, updatedSale)  
+        SaleModel.updateSale(saleId, updatedSale)
         return jsonify({'message': 'Sale Updated Succesfully'})
     except Exception as e:
         return jsonify({'message': 'Sale Cant be Updated'})
@@ -56,53 +52,19 @@ def deleteSale(saleId):
         SaleModel.deleteSale(saleId)
         return jsonify({'message': 'Sale Deleted Succesfully'})
     except Exception as e:
+        return jsonify({'message': 'Sale Cant be Deleted'})
         print(e)
 
-def getSalesByClient(idClient):
+def getSalesByCustomer(customerId):
     try:
-        return jsonify(SaleModel.getSalesByClient(idClient))
+        return jsonify(SaleModel.getSaleByCustomer(customerId))
     except Exception as e:
-        return jsonify({'message': 'Sales Cant be Fetched'})
-        print(e)
-        
-def getSalesByProduct(idProduct):
-    try:
-        return jsonify(SaleModel.getSalesByProduct(idProduct))
-    except Exception as e:
+        return jsonify({'message': 'Sale Cant be Fetched'})
         print(e)
 
-def getSalesByDate(saleDate):
+def getSalesByDate(date):
     try:
-        return jsonify(SaleModel.getSalesByDate(saleDate))
+        return jsonify(SaleModel.getSaleByDate(date))
     except Exception as e:
-        print(e)
-        
-def getSalesByClientAndProduct(idClient, idProduct):
-    try:
-        return jsonify(SaleModel.getSalesByClientAndProduct(idClient, idProduct))
-    except Exception as e:
-        print(e)
-        
-def getSalesByClientAndDate(idClient, saleDate):
-    try:
-        return jsonify(SaleModel.getSalesByClientAndDate(idClient, saleDate))
-    except Exception as e:
-        print(e)
-        
-def getSalesByProductAndDate(idProduct, saleDate):
-    try:
-        return jsonify(SaleModel.getSalesByProductAndDate(idProduct, saleDate))
-    except Exception as e:
-        print(e)
-
-def getSalesByClientAndProductAndDate(idClient, idProduct, saleDate):
-    try:
-        return jsonify(SaleModel.getSalesByClientAndProductAndDate(idClient, idProduct, saleDate))
-    except Exception as e:
-        print(e)
-        
-def getSalesByAmount(amount):
-    try:
-        return jsonify(SaleModel.getSalesByAmount(amount))
-    except Exception as e:
+        return jsonify({'message': 'Sale Cant be Fetched'})
         print(e)
